@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRYPTX - Windows 98 Edition</title>
+    <link rel="stylesheet" href="https://unpkg.com/98.css">
+    <style>
+        body {
+            background: #008080 url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"><rect width="16" height="16" fill="%23008080"/><rect x="0" y="0" width="8" height="8" fill="%2300AAAA"/><rect x="8" y="8" width="8" height="8" fill="%2300AAAA"/></svg>');
+            font-family: "MS Sans Serif", sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .window {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 800px;
+            max-width: 90vw;
+            max-height: 80vh;
+            box-shadow: 5px 5px 10px rgba(0,0,0,0.3);
+        }
+
+        .window-body {
+            padding: 8px;
+            background: #c0c0c0;
+        }
+
+        .menu-bar {
+            margin-bottom: 8px;
+            display: flex;
+            gap: 10px;
+            background: #c0c0c0;
+            border: 2px inset #c0c0c0;
+            padding: 2px;
+        }
+
+        .menu-item {
+            padding: 2px 8px;
+            cursor: pointer;
+            background: transparent;
+            border: 1px outset #c0c0c0;
+        }
+
+        .menu-item:hover {
+            background: #000080;
+            color: white;
+        }
+
+        .menu-item:active {
+            border: 1px inset #c0c0c0;
+        }
+
+        .content-area {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 20px;
+            height: 400px;
+        }
+
+        .left-panel {
+            background: #c0c0c0;
+            padding: 8px;
+            border: 2px inset #c0c0c0;
+        }
+
+        .right-panel {
+            background: #c0c0c0;
+            padding: 8px;
+            border: 2px inset #c0c0c0;
+        }
+
+        .icon-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: 10px;
+        }
+
+        .desktop-icon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .desktop-icon:hover {
+            background: rgba(0,0,255,0.1);
+        }
+
+        .desktop-icon img {
+            width: 32px;
+            height: 32px;
+            margin-bottom: 4px;
+        }
+
+        .icon-label {
+            font-size: 11px;
+            text-align: center;
+            color: #000080;
+            font-weight: bold;
+        }
+
+        .section-title {
+            font-size: 14px;
+            font-weight: bold;
+            color: #000080;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #808080;
+            padding-bottom: 4px;
+        }
+
+        .game-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .game-item {
+            display: flex;
+            align-items: center;
+            padding: 6px;
+            margin: 2px 0;
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+
+        .game-item:hover {
+            background: #000080;
+            color: white;
+            border: 1px inset #c0c0c0;
+        }
+
+        .game-icon {
+            width: 16px;
+            height: 16px;
+            margin-right: 8px;
+        }
+
+        .game-title {
+            font-size: 12px;
+        }
+
+        .status-bar {
+            margin-top: 8px;
+            padding: 4px;
+            background: #c0c0c0;
+            border: 2px inset #c0c0c0;
+            font-size: 11px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .toolbar {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 8px;
+        }
+
+        button {
+            padding: 4px 12px;
+            background: #c0c0c0;
+            border: 2px outset #c0c0c0;
+            font-family: "MS Sans Serif", sans-serif;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #d0d0d0;
+        }
+
+        button:active {
+            border: 2px inset #c0c0c0;
+        }
+
+        .url-input {
+            width: 100%;
+            padding: 4px;
+            border: 2px inset #ffffff;
+            background: white;
+            font-family: "MS Sans Serif", sans-serif;
+            font-size: 12px;
+            margin: 4px 0;
+        }
+
+        .checkbox {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin: 4px 0;
+        }
+
+        .checkbox input[type="checkbox"] {
+            margin: 0;
+        }
+
+        /* Windows 98 specific animations */
+        .window {
+            animation: window-appear 0.5s ease-out;
+        }
+
+        @keyframes window-appear {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+        /* Taskbar style */
+        .taskbar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 32px;
+            background: #c0c0c0;
+            border-top: 1px solid #ffffff;
+            display: flex;
+            align-items: center;
+            padding: 0 4px;
+            z-index: 1000;
+        }
+
+        .start-button {
+            display: flex;
+            align-items: center;
+            background: #c0c0c0;
+            border: 2px outset #c0c0c0;
+            padding: 2px 8px;
+            margin-right: 4px;
+            cursor: pointer;
+            font-size: 11px;
+        }
+
+        .start-button:active {
+            border: 2px inset #c0c0c0;
+        }
+
+        .start-icon {
+            width: 16px;
+            height: 16px;
+            margin-right: 4px;
+        }
+
+        .taskbar-separator {
+            width: 1px;
+            height: 20px;
+            background: #808080;
+            margin: 0 4px;
+        }
+
+        .system-tray {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .tray-icon {
+            width: 16px;
+            height: 16px;
+            opacity: 0.7;
+        }
+
+        .clock {
+            font-size: 11px;
+            background: #c0c0c0;
+            border: 2px inset #c0c0c0;
+            padding: 2px 4px;
+            margin-left: 8px;
+        }
+
+        /* Desktop background */
+        .desktop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 32px;
+            background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAABHNCSVQICAgIfAhkiAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAABMSURBVBiVY2CgA2BhYWFiYmJgJGIQZGBgZGJgJGAQZ2Bg7OBg4GBgEWVgZGDhYGDhEWVgZGDhYGDhEWVgZGDhUWFgE0NhIGRgAGUAX/xSbxdhAAAAAElFTkSuQmCC');
+            z-index: -1;
+        }
+
+        .desktop-icons {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: 20px;
+            max-width: 400px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Desktop Background -->
+<div class="desktop"></div>
+
+<!-- Desktop Icons -->
+<div class="desktop-icons">
+    <div class="desktop-icon" onclick="openWindow('cryptx')">
+        <img src="data:image/gif;base64,R0lGODlhEAAQAPAAAP///wAAACH5BAEAAAAALAAAAAAQABAAAANCCATQCBxCNrOsBggAOw==" alt="CRYPTX">
+        <div class="icon-label">CRYPTX</div>
+    </div>
+    <div class="desktop-icon" onclick="openWindow('games')">
+        <img src="data:image/gif;base64,R0lGODlhEAAQAPAAAABlZGViACH5BAEAAAAALAAAAAAQABAAAANCCATQCBxCNrOsBggAOw==" alt="Games">
+        <div class="icon-label">Games</div>
+    </div>
+    <div class="desktop-icon" onclick="openWindow('tools')">
+        <img src="data:image/gif;base64,R0lGODlhEAAQAPAAAABEAAD/ACH5BAEAAAAALAAAAAAQABAAAANCCATQCBxCNrOsBggAOw==" alt="Tools">
+        <div class="icon-label">Tools</div>
+    </div>
+</div>
+
+<!-- Main Window (Hidden initially) -->
+<div class="window" id="main-window" style="display: none;">
+    <div class="title-bar">
+        <div class="title-bar-text">CRYPTX - Windows 98 Edition</div>
+        <div class="title-bar-controls">
+            <button aria-label="Minimize"></button>
+            <button aria-label="Maximize"></button>
+            <button aria-label="Close" onclick="closeWindow()"></button>
+        </div>
+    </div>
+
+    <div class="window-body">
+        <div class="menu-bar">
+            <div class="menu-item" onclick="showMenu('file')">File</div>
+            <div class="menu-item" onclick="showMenu('edit')">Edit</div>
+            <div class="menu-item" onclick="showMenu('view')">View</div>
+            <div class="menu-item" onclick="showMenu('help')">Help</div>
+        </div>
+
+        <div class="toolbar">
+            <button onclick="switchTab('games')">🎮 Games</button>
+            <button onclick="switchTab('proxy')">🛡️ Proxy</button>
+            <button onclick="switchTab('tools')">🛠️ Tools</button>
+        </div>
+
+        <div class="content-area">
+            <!-- Left Panel -->
+            <div class="left-panel">
+                <div class="section-title">Quick Access</div>
+                <div class="icon-grid">
+                    <div class="desktop-icon" onclick="switchTab('games')">
+                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAAdgAAAHYBTnsmCAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAFYSURBVDiNpZM9SwNBEIafgxAuJRK1VAJRKBQsRD0Bq1YqUVA/QOuBpNVKoRKJbYUFwcIifCGHQqY0QhJjMzuxm2zf2WF3Znfn3ptmPkMUyigbzxMCZzPeaSYuVsRPirrIWJLw609Vx/88cZGNVrrgcmZUxZjKyMY31V7yOFvxJh8hSTSSiSsQmKxiYTFLdQkUVvFcXL7G4uRsRrHpCzhoQBMcpOcNMu8jFHxzhaRYxCr40y72Mk3nGFpFjEq/jsTZ3kYE/mGF5FkIpHgTZ/kYEWcQqeNMv8jJLxzhaRYxKr40y/2MkfnGF5FiEq/uy+oZsamrxUz5r1U7nMkfnGF5FkIpHgTZ/kYEWcQqeNMv8jJLxzhaRYxKr40y/2MkfnGF5FiEq/uy+oJSi2LizqOXTeqg+RSPyxmuUYDb+B+3KfXqDjHl+Z2hKtDGSNc9pHOtrVzMdhz6D0VxQvgAs+jNX5TxIqcAAAAASUVORK5CYII=" alt="Games">
+                        <div class="icon-label">Games</div>
+                    </div>
+                    <div class="desktop-icon" onclick="switchTab('proxy')">
+                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAAdgAAAHYBTnsmCAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAFYSURBVDiNpZM9SwNBEIafgxAuJRK1VAJRKBQsRD0Bq1YqUVA/QOuBpNVKoRKJbYUFwcIifCGHQqY0QhJjMzuxm2zf2WF3Znfn3ptmPkMUyigbzxMCZzPeaSYuVsRPirrIWJLw609Vx/88cZGNVrrgcmZUxZjKyMY31V7yOFvxJh8hSTSSiSsQmKxiYTFLdQkUVvFcXL7G4uRsRrHpCzhoQBMcpOcNMu8jFHxzhaRYxCr40y72Mk3nGFpFjEq/jsTZ3kYE/mGF5FkIpHgTZ/kYEWcQqeNMv8jJLxzhaRYxKr40y/2MkfnGF5FiEq/uy+oZsamrxUz5r1U7nMkfnGF5FkIpHgTZ/kYEWcQqeNMv8jJLxzhaRYxKr40y/2MkfnGF5FiEq/uy+oJSi2LizqOXTeqg+RSPyxmuUYDb+B+3KfXqDjHl+Z2hKtDGSNc9pHOtrVzMdhz6D0VxQvgAs+jNX5TxIqcAAAAASUVORK5CYII=" alt="Proxy">
+                        <div class="icon-label">Proxy</div>
+                    </div>
+                    <div class="desktop-icon" onclick="switchTab('tools')">
+                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAAdgAAAHYBTnsmCAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAFYSURBVDiNpZM9SwNBEIafgxAuJRK1VAJRKBQsRD0Bq1YqUVA/QOuBpNVKoRKJbYUFwcIifCGHQqY0QhJjMzuxm2zf2WF3Znfn3ptmPkMUyigbzxMCZzPeaSYuVsRPirrIWJLw609Vx/88cZGNVrrgcmZUxZjKyMY31V7yOFvxJh8hSTSSiSsQmKxiYTFLdQkUVvFcXL7G4uRsRrHpCzhoQBMcpOcNMu8jFHxzhaRYxCr40y72Mk3nGFpFjEq/jsTZ3kYE/mGF5FkIpHgTZ/kYEWcQqeNMv8jJLxzhaRYxKr40y/2MkfnGF5FiEq/uy+oZsamrxUz5r1U7nMkfnGF5FkIpHgTZ/kYEWcQqeNMv8jJLxzhaRYxKr40y/2MkfnGF5FiEq/uy+oJSi2LizqOXTeqg+RSPyxmuUYDb+B+3KfXqDjHl+Z2hKtDGSNc9pHOtrVzMdhz6D0VxQvgAs+jNX5TxIqcAAAAASUVORK5CYII=" alt="Tools">
+                        <div class="icon-label">Tools</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Panel -->
+            <div class="right-panel">
+                <!-- Games Tab -->
+                <div id="games-content">
+                    <div class="section-title">🎮 Popular Games</div>
+                    <div class="game-list">
+                        <div class="game-item" onclick="openGame('https://storage.classroomsarecool.mex.com/slope/index.html')">
+                            <img class="game-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==" alt="">
+                            <div class="game-title">Slope.io</div>
+                        </div>
+                        <div class="game-item" onclick="openGame('https://storage.classroomsarecool.mex.com/geometrydash/index.html')">
+                            <img class="game-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==" alt="">
+                            <div class="game-title">Geometry Dash</div>
+                        </div>
+                        <div class="game-item" onclick="openGame('https://storage.classroomsarecool.mex.com/subwaysurfers-sf/index.html')">
+                            <img class="game-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==" alt="">
+                            <div class="game-title">Subway Surfers</div>
+                        </div>
+                        <div class="game-item" onclick="openGame('https://storage.classroomsarecool.mex.com/motox3m/index.html')">
+                            <img class="game-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==" alt="">
+                            <div class="game-title">Moto X3M</div>
+                        </div>
+                        <div class="game-item" onclick="openGame('https://storage.classroomsarecool.mex.com/eggy-car/index.html')">
+                            <img class="game-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==" alt="">
+                            <div class="game-title">Eggy Car</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Proxy Tab -->
+                <div id="proxy-content" style="display: none;">
+                    <div class="section-title">🛡️ Proxy Access</div>
+                    <div>
+                        <label for="urlInput">URL to access:</label><br>
+                        <input type="text" class="url-input" id="urlInput" placeholder="https://example.com" onkeydown="if(event.key === 'Enter') accessSite()">
+                        <button onclick="accessSite()" style="width: 100%; margin-top: 8px;">Access Site</button>
+                        <div id="proxy-status" style="margin-top: 8px; padding: 4px; background: #ffffff; border: 1px inset; font-size: 11px;">Ready to browse anonymously...</div>
+                    </div>
+                </div>
+
+                <!-- Tools Tab -->
+                <div id="tools-content" style="display: none;">
+                    <div class="section-title">🛠️ Developer Tools</div>
+                    <div>
+                        <button onclick="openTool('url-encoder.html')" style="width: 100%; margin: 2px 0;">URL Encoder</button>
+                        <button onclick="openTool('password-generator.html')" style="width: 100%; margin: 2px 0;">Password Generator</button>
+                        <button onclick="openTool('base64-tool.html')" style="width: 100%; margin: 2px 0;">Base64 Tool</button>
+                        <button onclick="openTool('system-monitor.html')" style="width: 100%; margin: 2px 0;">System Monitor</button>
+                        <div style="margin-top: 12px; padding: 8px; background: #ffffff; border: 1px inset;">
+                            <div class="checkbox">
+                                <input type="checkbox" id="darkMode" onchange="toggleDarkMode()">
+                                <label for="darkMode">8992 Mode</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="status-bar">
+            <div id="status-text">Welcome to CRYPTX Windows 98 Edition!</div>
+            <div>CRYPTX v98.0</div>
+        </div>
+    </div>
+</div>
+
+<!-- Taskbar -->
+<div class="taskbar">
+    <button class="start-button" onclick="showStartMenu()">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAAdgAAAHYBTnsmCAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAFYSURBVDiNpZM9SwNBEIafgxAuJRK1VAJRKBQsRD0Bq1YqUVA/QOuBpNVKoRKJbYUFwcIifCGHQqY0QhJjMzuxm2zf2WF3Znfn3ptmPkMUyigbzxMCZzPeaSYuVsRPirrIWJLw609Vx/88cZGNVrrgcmZUxZjKyMY31V7yOFvxJh8hSTSSiSsQmKxiYTFLdQkUVvFcXL7G4uRsRrHpCzhoQBMcpOcNMu8jFHxzhaRYxCr40y72Mk3nGFpFjEq/jsTZ3kYE/mGF5FkIpHgTZ/kYEWcQqeNMv8jJLxzhaRYxKr40y/2MkfnGF5FiEq/uy+oZsamrxUz5r1U7nMkfnGF5FkIpHgTZ/kYEWcQqeNMv8jJLxzhaRYxKr40y/2MkfnGF5FiEq/uy+oJSi2LizqOXTeqg+RSPyxmuUYDb+B+3KfXqDjHl+Z2hKtDGSNc9pHOtrVzMdhz6D0VxQvgAs+jNX5TxIqceanJQTjbrvNrMAAAAASUVORK5CYII=" alt="Windows" class="start-icon">
+        Start
+    </button>
+
+    <div class="taskbar-separator"></div>
+
+    <div class="system-tray">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAAdgAAAHYBTnsmCAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAFYSURBVDiNpZM9SwNBEIafgxAuJRK1VAJRKBQsRD0Bq1YqUVA/QOuBpNVKoRKJbYUFwcIifCGHQqY0QhJjMzuxm2zf2WF3Znfn3ptmPkMUyigbzxMCZzPeaSYuVsRPirrIWJLw609Vx/88cZGNVrrgcmZUxZjKyMY31V7yOFvxJh8hSTSSiSsQmKxiYTFLdQkUVvFcXL7G4uRsRrHpCzhoQBMcpOcNMu8jFHxzhaRYxCr40y72Mk3nGFpFjEq/jsTZ3kYE/mGF5FkIpHgTZ/kYEWcQqeNMv8jJLxzhaRYxKr40y/2MkfnGF5FiEq/uy+oZsamrxUz5r1U7nMkfnGF5FkIpHgTZ/kYEWcQqeNMv8jJLxzhaRYxKr40y/2MkfnGF5FiEq/uy+oJSi2LizqOXTeqg+RSPyxmuUYDb+B+3KfXqDjHl+Z2hKtDGSNc9pHOtrVzMdhz6D0VxQvgAs+jNX5TxIqcAAAAASUVORK5CYII=" class="tray-icon" alt="Sound">
+        <div class="clock" id="clock">12:00 AM</div>
+    </div>
+</div>
+
+<script>
+// Tab switching
+function switchTab(tabName) {
+    const contents = ['games-content', 'proxy-content', 'tools-content'];
+    contents.forEach(content => {
+        document.getElementById(content).style.display = content.includes(tabName) ? 'block' : 'none';
+    });
+    document.getElementById('status-text').textContent = `Switched to ${tabName} section`;
+}
+
+// Window management
+function openWindow(type) {
+    const mainWindow = document.getElementById('main-window');
+    mainWindow.style.display = 'block';
+    document.getElementById('status-text').textContent = `CRYPTX ${type} opened`;
+}
+
+function closeWindow() {
+    const mainWindow = document.getElementById('main-window');
+    mainWindow.style.display = 'none';
+}
+
+// Game opening
+function openGame(url) {
+    window.open(url, '_blank');
+}
+
+// Proxy functionality
+function accessSite() {
+    const urlInput = document.getElementById('urlInput');
+    const url = urlInput.value.trim();
+
+    if (!url) {
+        document.getElementById('proxy-status').textContent = 'Error: Please enter a URL';
+        return;
+    }
+
+    document.getElementById('proxy-status').textContent = `Accessing: ${url}...`;
+    setTimeout(() => {
+        window.open(`proxy.html?url=${encodeURIComponent(url)}`, '_blank');
+        document.getElementById('proxy-status').textContent = 'Site opened successfully!';
+        setTimeout(() => {
+            document.getElementById('proxy-status').textContent = 'Ready to browse anonymously...';
+        }, 3000);
+    }, 500);
+}
+
+// Tool opening
+function openTool(url) {
+    window.open(url, '_blank');
+}
+
+// Dark mode toggle (Windows 98 joke)
+function toggleDarkMode() {
+    if (document.getElementById('darkMode').checked) {
+        document.body.style.background = '#000000';
+        document.body.style.color = '#00FF00';
+        document.getElementById('status-text').textContent = 'Welcome to the Matrix...';
+    } else {
+        document.body.style.background = '#008080 url(\'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"><rect width="16" height="16" fill="%23008080"/><rect x="0" y="0" width="8" height="8" fill="%2300AAAA"/><rect x="8" y="8" width="8" height="8" fill="%2300AAAA"/></svg>\')';
+        document.body.style.color = '#000000';
+        document.getElementById('status-text').textContent = 'Back to Windows 98!';
+    }
+}
+
+// Menu functionality
+function showMenu(menuType) {
+    document.getElementById('status-text').textContent = `Opening ${menuType} menu...`;
+}
+
+// Start menu
+function showStartMenu() {
+    document.getElementById('status-text').textContent = 'Opening Start menu...';
+}
+
+// Clock update
+function updateClock() {
+    const now = new Date();
+    const timeString = now.toLocaleTimeString('en-US', {
+        hour: 'numeric',
+        minute: '2-digit',
+        hour12: true
+    });
+    document.getElementById('clock').textContent = timeString;
+}
+
+// Initialize
+document.addEventListener('DOMContentLoaded', function() {
+    updateClock();
+    setInterval(updateClock, 1000);
+
+    // Focus main window on load
+    openWindow('cryptx');
+
+    // Add loading animation
+    document.body.style.opacity = '0';
+    document.body.style.transition = 'opacity 1s';
+    setTimeout(() => {
+        document.body.style.opacity = '1';
+    }, 100);
+});
+</script>
+
+</body>
+</html>
