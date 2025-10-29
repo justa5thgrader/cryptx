@@ -290,15 +290,263 @@
             z-index: -1;
         }
 
-        .desktop-icons {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-            gap: 20px;
-            max-width: 400px;
-        }
+    .desktop-icons {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+        gap: 20px;
+        max-width: 600px;
+        z-index: 10;
+    }
+
+    .desktop-icon.selected {
+        background: rgba(0,0,255,0.3);
+        border: 1px dotted #000080;
+    }
+
+    /* Multiple windows support */
+    .window-instance {
+        position: absolute;
+        z-index: 100;
+        min-width: 300px;
+        min-height: 200px;
+        background: #c0c0c0;
+        border: 1px solid #000000;
+        box-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    }
+
+    .window-instance.active {
+        z-index: 101;
+        box-shadow: 4px 4px 8px rgba(0,0,0,0.7);
+    }
+
+    .window-resizable {
+        resize: both;
+        overflow: hidden;
+    }
+
+    /* Taskbar improvements */
+    .running-apps {
+        display: flex;
+        gap: 2px;
+        flex: 1;
+        margin-left: 8px;
+    }
+
+    .taskbar-button {
+        background: #c0c0c0;
+        border: 2px outset #c0c0c0;
+        padding: 2px 8px;
+        font-size: 11px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        min-width: 120px;
+    }
+
+    .taskbar-button.active {
+        border: 2px inset #c0c0c0;
+        background: #f0f0f0;
+    }
+
+    .task-icon {
+        width: 14px;
+        height: 14px;
+    }
+
+    /* Start menu */
+    .start-menu {
+        position: absolute;
+        bottom: 32px;
+        left: 0;
+        background: #c0c0c0;
+        border: 2px outset #c0c0c0;
+        box-shadow: 2px 2px 6px rgba(0,0,0,0.5);
+        z-index: 200;
+        min-width: 200px;
+        display: none;
+        max-height: 400px;
+        overflow-y: auto;
+    }
+
+    .start-menu-item {
+        padding: 4px 8px;
+        cursor: pointer;
+        border-bottom: 1px solid #808080;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .start-menu-item:hover {
+        background: #000080;
+        color: white;
+    }
+
+    .start-menu-separator {
+        height: 1px;
+        background: #808080;
+        margin: 4px 0;
+    }
+
+    /* Context menus */
+    .context-menu {
+        position: absolute;
+        background: #c0c0c0;
+        border: 2px outset #c0c0c0;
+        box-shadow: 2px 2px 6px rgba(0,0,0,0.5);
+        z-index: 300;
+        min-width: 150px;
+        display: none;
+    }
+
+    .context-menu-item {
+        padding: 4px 8px;
+        cursor: pointer;
+    }
+
+    .context-menu-item:hover {
+        background: #000080;
+        color: white;
+    }
+
+    /* Search Bar Styles */
+    .search-bar-container {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: #c0c0c0;
+        border: 1px solid #000000;
+        box-shadow: 4px 4px 8px rgba(0,0,0,0.5);
+        padding: 20px;
+        z-index: 1000;
+        min-width: 500px;
+        display: none;
+    }
+
+    .search-bar-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #808080;
+    }
+
+    .search-bar-header h3 {
+        margin: 0;
+        color: #000080;
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    .search-close-btn {
+        background: #c0c0c0;
+        border: 2px outset #c0c0c0;
+        width: 16px;
+        height: 14px;
+        cursor: pointer;
+        font-size: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .search-close-btn:hover {
+        background: #d0d0d0;
+    }
+
+    .search-close-btn:active {
+        border: 2px inset #c0c0c0;
+    }
+
+    .search-input {
+        width: 100%;
+        padding: 6px 8px;
+        border: 2px inset #ffffff;
+        background: white;
+        font-family: "MS Sans Serif", sans-serif;
+        font-size: 12px;
+        margin-bottom: 15px;
+    }
+
+    .search-results {
+        max-height: 300px;
+        overflow-y: auto;
+        border: 2px inset #c0c0c0;
+        background: white;
+    }
+
+    .search-result-item {
+        display: flex;
+        align-items: center;
+        padding: 8px;
+        cursor: pointer;
+        border-bottom: 1px solid #e0e0e0;
+        transition: background-color 0.2s;
+    }
+
+    .search-result-item:hover {
+        background: #e8f4fd;
+    }
+
+    .search-result-item:last-child {
+        border-bottom: none;
+    }
+
+    .search-result-icon {
+        width: 32px;
+        height: 32px;
+        margin-right: 12px;
+        flex-shrink: 0;
+    }
+
+    .search-result-info h4 {
+        margin: 0 0 2px 0;
+        font-size: 14px;
+        font-weight: bold;
+        color: #000080;
+    }
+
+    .search-result-info p {
+        margin: 0;
+        font-size: 11px;
+        color: #666;
+    }
+
+    .no-results {
+        padding: 20px;
+        text-align: center;
+        color: #666;
+        font-style: italic;
+    }
+
+    /* Fullscreen mode styles */
+    .window-fullscreen {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100vw !important;
+        height: calc(100vh - 32px) !important;
+        max-width: none !important;
+        max-height: none !important;
+        margin: 0 !important;
+        z-index: 999 !important;
+    }
+
+    .fullscreen-title-bar {
+        background: linear-gradient(to right, #0080ff, #00ff80);
+        color: white;
+        padding: 2px 8px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: move;
+    }
     </style>
 </head>
 <body>
@@ -308,17 +556,21 @@
 
 <!-- Desktop Icons -->
 <div class="desktop-icons">
-    <div class="desktop-icon" onclick="openWindow('cryptx')">
+    <div class="desktop-icon" data-app-id="cryptx">
         <img src="data:image/gif;base64,R0lGODlhEAAQAPAAAP///wAAACH5BAEAAAAALAAAAAAQABAAAANCCATQCBxCNrOsBggAOw==" alt="CRYPTX">
         <div class="icon-label">CRYPTX</div>
     </div>
-    <div class="desktop-icon" onclick="openWindow('games')">
+    <div class="desktop-icon" data-app-id="games">
         <img src="data:image/gif;base64,R0lGODlhEAAQAPAAAABlZGViACH5BAEAAAAALAAAAAAQABAAAANCCATQCBxCNrOsBggAOw==" alt="Games">
         <div class="icon-label">Games</div>
     </div>
-    <div class="desktop-icon" onclick="openWindow('tools')">
+    <div class="desktop-icon" data-app-id="tools">
         <img src="data:image/gif;base64,R0lGODlhEAAQAPAAAABEAAD/ACH5BAEAAAAALAAAAAAQABAAAANCCATQCBxCNrOsBggAOw==" alt="Tools">
         <div class="icon-label">Tools</div>
+    </div>
+    <div class="desktop-icon" data-app-id="proxy">
+        <img src="data:image/gif;base64,R0lGODlhEAAQAPAAAABEAAD/ACH5BAEAAAAALAAAAAAQABAAAANCCATQCBxCNrOsBggAOw==" alt="Proxy">
+        <div class="icon-label">Proxy</div>
     </div>
 </div>
 
@@ -433,97 +685,535 @@
     </div>
 </div>
 
+<!-- Start Menu -->
+<div class="start-menu" id="start-menu">
+    <div class="start-menu-item" onclick="openApplication('cryptx')">
+        <img src="data:image/gif;base64,R0lGODlhEAAQAPAAAP///wAAACH5BAEAAAAALAAAAAAQABAAAANCCATQCBxCNrOsBggAOw==" alt="CRYPTX" class="task-icon">
+        <span>CRYPTX</span>
+    </div>
+    <div class="start-menu-item" onclick="openApplication('games')">
+        <img src="data:image/gif;base64,R0lGODlhEAAQAPAAAABlZGViACH5BAEAAAAALAAAAAAQABAAAANCCATQCBxCNrOsBggAOw==" alt="Games" class="task-icon">
+        <span>Games</span>
+    </div>
+    <div class="start-menu-item" onclick="openApplication('tools')">
+        <img src="data:image/gif;base64,R0lGODlhEAAQAPAAAABEAAD/ACH5BAEAAAAALAAAAAAQABAAAANCCATQCBxCNrOsBggAOw==" alt="Tools" class="task-icon">
+        <span>Tools</span>
+    </div>
+    <div class="start-menu-item" onclick="openApplication('proxy')">
+        <img src="data:image/gif;base64,R0lGODlhEAAQAPAAAABEAAD/ACH5BAEAAAAALAAAAAAQABAAAANCCATQCBxCNrOsBggAOw==" alt="Proxy" class="task-icon">
+        <span>Proxy Browser</span>
+    </div>
+    <div class="start-menu-separator"></div>
+    <div class="start-menu-item" onclick="showSettings()">
+        <span>⚙️ Settings</span>
+    </div>
+    <div class="start-menu-item" onclick="showHelp()">
+        <span>❓ Help</span>
+    </div>
+    <div class="start-menu-separator"></div>
+    <div class="start-menu-item" onclick="shutdown()">
+        <span>🔌 Shut Down</span>
+    </div>
+</div>
+
+<!-- Context Menu -->
+<div class="context-menu" id="desktop-context-menu">
+    <div class="context-menu-item" onclick="showSearch()">🔍 Search</div>
+    <div class="context-menu-item" onclick="arrangeIcons()">Arrange Icons</div>
+    <div class="context-menu-item" onclick="refreshDesktop()">Refresh</div>
+    <div class="context-menu-item" onclick="changeWallpaper()">Change Wallpaper</div>
+    <div class="context-menu-item" onclick="showProperties()">Properties</div>
+</div>
+
 <!-- Taskbar -->
 <div class="taskbar">
-    <button class="start-button" onclick="showStartMenu()">
-        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAAdgAAAHYBTnsmCAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAFYSURBVDiNpZM9SwNBEIafgxAuJRK1VAJRKBQsRD0Bq1YqUVA/QOuBpNVKoRKJbYUFwcIifCGHQqY0QhJjMzuxm2zf2WF3Znfn3ptmPkMUyigbzxMCZzPeaSYuVsRPirrIWJLw609Vx/88cZGNVrrgcmZUxZjKyMY31V7yOFvxJh8hSTSSiSsQmKxiYTFLdQkUVvFcXL7G4uRsRrHpCzhoQBMcpOcNMu8jFHxzhaRYxCr40y72Mk3nGFpFjEq/jsTZ3kYE/mGF5FkIpHgTZ/kYEWcQqeNMv8jJLxzhaRYxKr40y/2MkfnGF5FiEq/uy+oZsamrxUz5r1U7nMkfnGF5FkIpHgTZ/kYEWcQqeNMv8jJLxzhaRYxKr40y/2MkfnGF5FiEq/uy+oJSi2LizqOXTeqg+RSPyxmuUYDb+B+3KfXqDjHl+Z2hKtDGSNc9pHOtrVzMdhz6D0VxQvgAs+jNX5TxIqceanJQTjbrvNrMAAAAASUVORK5CYII=" alt="Windows" class="start-icon">
+    <button class="start-button" onclick="toggleStartMenu()">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAAdgAAAHYBTnsmCAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAFYSURBVDiNpZM9SwNBEIafgxAuJRK1VAJRKBQsRD0Bq1YqUVA/QOuBpNVKoRKJbYUFwcIifCGHQqY0QhJjMzuxm2zf2WF3Znfn3ptmPkMUyigbzxMCZzPeaSYuVsRPirrIWJLw609Vx/88cZGNVrrgcmZUxZjKyMY31V7yOFvxJh8hSTSSiSsQmKxiYTFLdQkUVvFcXL7G4uRsRrHpCzhoQBMcpOcNMu8jFHxzhaRYxCr40y72Mk3nGFpFjEq/jsTZ3kYE/mGF5FkIpHgTZ/kYEWcQqeNMv8jJLxzhaRYxKr40y/2MkfnGF5FiEq/uy+oJSi2LizqOXTeqg+RSPyxmuUYDb+B+3KfXqDjHl+Z2hKtDGSNc9pHOtrVzMdhz6D0VxQvgAs+jNX5TxIqceanJQTjbrvNrMAAAAASUVORK5CYII=" alt="Windows" class="start-icon">
         Start
     </button>
 
     <div class="taskbar-separator"></div>
 
+    <div class="running-apps" id="running-apps">
+        <!-- Taskbar buttons for running applications will be added here -->
+    </div>
+
     <div class="system-tray">
-        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAAdgAAAHYBTnsmCAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAFYSURBVDiNpZM9SwNBEIafgxAuJRK1VAJRKBQsRD0Bq1YqUVA/QOuBpNVKoRKJbYUFwcIifCGHQqY0QhJjMzuxm2zf2WF3Znfn3ptmPkMUyigbzxMCZzPeaSYuVsRPirrIWJLw609Vx/88cZGNVrrgcmZUxZjKyMY31V7yOFvxJh8hSTSSiSsQmKxiYTFLdQkUVvFcXL7G4uRsRrHpCzhoQBMcpOcNMu8jFHxzhaRYxCr40y72Mk3nGFpFjEq/jsTZ3kYE/mGF5FkIpHgTZ/kYEWcQqeNMv8jJLxzhaRYxKr40y/2MkfnGF5FiEq/uy+oZsamrxUz5r1U7nMkfnGF5FkIpHgTZ/kYEWcQqeNMv8jJLxzhaRYxKr40y/2MkfnGF5FiEq/uy+oJSi2LizqOXTeqg+RSPyxmuUYDb+B+3KfXqDjHl+Z2hKtDGSNc9pHOtrVzMdhz6D0VxQvgAs+jNX5TxIqcAAAAASUVORK5CYII=" class="tray-icon" alt="Sound">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAAdgAAAHYBTnsmCAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAFYSURBVDiNpZM9SwNBEIafgxAuJRK1VAJRKBQsRD0Bq1YqUVA/QOuBpNVKoRKJbYUFwcIifCGHQqY0QhJjMzuxm2zf2WF3Znfn3ptmPkMUyigbzxMCZzPeaSYuVsRPirrIWJLw609Vx/88cZGNVrrgcmZUxZjKyMY31V7yOFvxJh8hSTSSiSsQmKxiYTFLdQkUVvFcXL7G4uRsRrHpCzhoQBMcpOcNMu8jFHxzhaRYxCr40y72Mk3nGFpFjEq/jsTZ3kYE/mGF5FkIpHgTZ/kYEWcQqeNMv8jJLxzhaRYxKr40y/2MkfnGF5FiEq/uy+oJSi2LizqOXTeqg+RSPyxmuUYDb+B+3KfXqDjHl+Z2hKtDGSNc9pHOtrVzMdhz6D0VxQvgAs+jNX5TxIqcAAAAASUVORK5CYII=" class="tray-icon" alt="Sound">
         <div class="clock" id="clock">12:00 AM</div>
     </div>
 </div>
 
+<!-- Search Bar -->
+<div class="search-bar-container" id="search-bar">
+    <div class="search-bar-header">
+        <h3>Find Games, Tools, and Proxy</h3>
+        <button class="search-close-btn" onclick="closeSearch()">×</button>
+    </div>
+    <input type="text" class="search-input" id="search-input" placeholder="Type here to search..." oninput="performSearch(this.value)">
+    <div class="search-results" id="search-results">
+        <!-- Search results will be populated here -->
+        <div class="no-results">Start typing to search for games, tools, and applications...</div>
+    </div>
+</div>
+
+<!-- Application Windows Container -->
+<div id="windows-container">
+    <!-- Additional windows will be created here -->
+</div>
+
 <script>
-// Tab switching
-function switchTab(tabName) {
-    const contents = ['games-content', 'proxy-content', 'tools-content'];
-    contents.forEach(content => {
-        document.getElementById(content).style.display = content.includes(tabName) ? 'block' : 'none';
+// OS State Management
+let openedWindows = [];
+let activeWindowId = null;
+let nextWindowId = 1;
+let startMenuVisible = false;
+let desktopWallpaper = 0;
+let selectedIcons = [];
+
+// Window dragging variables
+let isDragging = false;
+let dragOffsetX = 0;
+let dragOffsetY = 0;
+
+// Desktop Applications
+const applications = {
+    cryptx: {
+        name: 'CRYPTX',
+        icon: 'data:image/gif;base64,R0lGODlhEAAQAPAAAP///wAAACH5BAEAAAAALAAAAAAQABAAAANCCATQCBxCNrOsBggAOw==',
+        createWindow: createCryptxWindow
+    },
+    games: {
+        name: 'Games',
+        icon: 'data:image/gif;base64,R0lGODlhEAAQAPAAAABlZGViACH5BAEAAAAALAAAAAAQABAAAANCCATQCBxCNrOsBggAOw==',
+        createWindow: createGamesWindow
+    },
+    tools: {
+        name: 'Tools',
+        icon: 'data:image/gif;base64,R0lGODlhEAAQAPAAAABEAAD/ACH5BAEAAAAALAAAAAAQABAAAANCCATQCBxCNrOsBggAOw==',
+        createWindow: createToolsWindow
+    },
+    proxy: {
+        name: 'Proxy Browser',
+        icon: 'data:image/gif;base64,R0lGODlhEAAQAPAAAABEAAD/ACH5BAEAAAAALAAAAAAQABAAAANCCATQCBxCNrOsBggAOw==',
+        createWindow: createProxyWindow
+    }
+};
+
+// Window Management Functions
+function openApplication(appId) {
+    if (applications[appId]) {
+        createApplicationWindow(appId);
+        toggleStartMenu();
+    }
+}
+
+function createApplicationWindow(appId) {
+    const app = applications[appId];
+    const windowId = `window-${nextWindowId++}`;
+
+    // Close start menu
+    hideStartMenu();
+
+    // Remove existing window if exists
+    const existingWindow = document.getElementById(windowId);
+    if (existingWindow) {
+        existingWindow.remove();
+        removeFromTaskbar(windowId);
+    }
+
+    // Create new window
+    const windowElement = document.createElement('div');
+    windowElement.className = 'window-instance';
+    windowElement.id = windowId;
+    windowElement.style.left = `${50 + (openedWindows.length * 30)}px`;
+    windowElement.style.top = `${50 + (openedWindows.length * 30)}px`;
+
+    // Create window content using app's createWindow function
+    windowElement.innerHTML = app.createWindow(windowId, app);
+    document.getElementById('windows-container').appendChild(windowElement);
+
+    // Add to opened windows
+    openedWindows.push(windowId);
+    addToTaskbar(windowId, app.name, app.icon);
+
+    // Focus the window
+    focusWindow(windowId);
+
+    // Make window draggable and resizable
+    makeWindowDraggable(windowElement);
+    makeWindowResizable(windowElement);
+}
+
+function closeApplicationWindow(windowId) {
+    const windowElement = document.getElementById(windowId);
+    if (windowElement) {
+        windowElement.remove();
+        openedWindows = openedWindows.filter(id => id !== windowId);
+        removeFromTaskbar(windowId);
+        if (activeWindowId === windowId) {
+            activeWindowId = openedWindows.length > 0 ? openedWindows[openedWindows.length - 1] : null;
+            if (activeWindowId) {
+                focusWindow(activeWindowId);
+            }
+        }
+    }
+}
+
+function focusWindow(windowId) {
+    // Remove active class from all windows
+    document.querySelectorAll('.window-instance').forEach(win => {
+        win.classList.remove('active');
     });
-    document.getElementById('status-text').textContent = `Switched to ${tabName} section`;
+    document.querySelectorAll('.taskbar-button').forEach(btn => {
+        btn.classList.remove('active');
+    });
+
+    // Add active class to focused window
+    const windowElement = document.getElementById(windowId);
+    if (windowElement) {
+        windowElement.classList.add('active');
+        // Bring to front
+        const maxZ = Math.max(...Array.from(document.querySelectorAll('.window-instance')).map(el => parseInt(el.style.zIndex) || 100));
+        windowElement.style.zIndex = maxZ + 1;
+    }
+
+    // Update taskbar
+    const taskbarBtn = document.querySelector(`[data-window-id="${windowId}"]`);
+    if (taskbarBtn) {
+        taskbarBtn.classList.add('active');
+    }
+
+    activeWindowId = windowId;
 }
 
-// Window management
-function openWindow(type) {
-    const mainWindow = document.getElementById('main-window');
-    mainWindow.style.display = 'block';
-    document.getElementById('status-text').textContent = `CRYPTX ${type} opened`;
+function minimizeWindow(windowId) {
+    const windowElement = document.getElementById(windowId);
+    if (windowElement) {
+        windowElement.style.display = 'none';
+    }
 }
 
-function closeWindow() {
-    const mainWindow = document.getElementById('main-window');
-    mainWindow.style.display = 'none';
+function makeWindowDraggable(windowElement) {
+    const titleBar = windowElement.querySelector('.title-bar');
+    if (titleBar) {
+        titleBar.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            focusWindow(windowElement.id);
+            dragOffsetX = e.clientX - windowElement.offsetLeft;
+            dragOffsetY = e.clientY - windowElement.offsetTop;
+
+            document.addEventListener('mousemove', drag);
+            document.addEventListener('mouseup', stopDrag);
+        });
+    }
+
+    function drag(e) {
+        if (isDragging) {
+            windowElement.style.left = `${e.clientX - dragOffsetX}px`;
+            windowElement.style.top = `${Math.max(0, e.clientY - dragOffsetY)}px`;
+        }
+    }
+
+    function stopDrag() {
+        isDragging = false;
+        document.removeEventListener('mousemove', drag);
+        document.removeEventListener('mouseup', stopDrag);
+    }
 }
 
-// Game opening
+function makeWindowResizable(windowElement) {
+    windowElement.classList.add('window-resizable');
+}
+
+// Taskbar Functions
+function addToTaskbar(windowId, title, icon) {
+    const runningApps = document.getElementById('running-apps');
+    const taskBtn = document.createElement('button');
+    taskBtn.className = 'taskbar-button';
+    taskBtn.setAttribute('data-window-id', windowId);
+    taskBtn.innerHTML = `
+        <img src="${icon}" class="task-icon" alt="${title}">
+        <span>${title}</span>
+    `;
+    taskBtn.onclick = () => {
+        const windowElement = document.getElementById(windowId);
+        if (windowElement.style.display === 'none') {
+            windowElement.style.display = 'block';
+            focusWindow(windowId);
+        } else {
+            focusWindow(windowId);
+        }
+    };
+    runningApps.appendChild(taskBtn);
+}
+
+function removeFromTaskbar(windowId) {
+    const taskBtn = document.querySelector(`[data-window-id="${windowId}"]`);
+    if (taskBtn) {
+        taskBtn.remove();
+    }
+}
+
+// Start Menu Functions
+function toggleStartMenu() {
+    const startMenu = document.getElementById('start-menu');
+    if (startMenuVisible) {
+        hideStartMenu();
+    } else {
+        showStartMenu();
+    }
+}
+
+function showStartMenu() {
+    const startMenu = document.getElementById('start-menu');
+    startMenu.style.display = 'block';
+    startMenuVisible = true;
+}
+
+function hideStartMenu() {
+    const startMenu = document.getElementById('start-menu');
+    startMenu.style.display = 'none';
+    startMenuVisible = false;
+}
+
+// Desktop Context Menu
+function showDesktopContextMenu(event) {
+    event.preventDefault();
+    const contextMenu = document.getElementById('desktop-context-menu');
+    contextMenu.style.left = `${event.clientX}px`;
+    contextMenu.style.top = `${event.clientY}px`;
+    contextMenu.style.display = 'block';
+
+    // Hide context menu when clicking elsewhere
+    document.addEventListener('click', hideContextMenu);
+}
+
+function hideContextMenu() {
+    document.getElementById('desktop-context-menu').style.display = 'none';
+    document.removeEventListener('click', hideContextMenu);
+}
+
+// Desktop Icon Management
+function selectIcon(iconElement) {
+    // Deselect all icons
+    document.querySelectorAll('.desktop-icon').forEach(icon => {
+        icon.classList.remove('selected');
+    });
+
+    // Select this icon
+    iconElement.classList.add('selected');
+    selectedIcons = [iconElement];
+}
+
+// Application Window Creators
+function createCryptxWindow(windowId, app) {
+    return `
+        <div class="title-bar" style="cursor: move;">
+            <div class="title-bar-text">${app.name} - Windows 98 Edition</div>
+            <div class="title-bar-controls">
+                <button aria-label="Minimize" onclick="minimizeWindow('${windowId}')">-</button>
+                <button aria-label="Maximize">-</button>
+                <button aria-label="Close" onclick="closeApplicationWindow('${windowId}')">×</button>
+            </div>
+        </div>
+        <div class="window-body">
+            <div class="menu-bar">
+                <div class="menu-item" onclick="showMenu('file')">File</div>
+                <div class="menu-item" onclick="showMenu('edit')">Edit</div>
+                <div class="menu-item" onclick="showMenu('view')">View</div>
+                <div class="menu-item" onclick="showMenu('help')">Help</div>
+            </div>
+            <div class="toolbar">
+                <button onclick="switchTabs('${windowId}', 'games')">🎮 Games</button>
+                <button onclick="switchTabs('${windowId}', 'proxy')">🛡️ Proxy</button>
+                <button onclick="switchTabs('${windowId}', 'tools')">🛠️ Tools</button>
+            </div>
+            <div class="content-area">
+                <div class="left-panel">
+                    <div class="section-title">Quick Access</div>
+                    <div class="icon-grid">
+                        <div class="desktop-icon" onclick="switchTabs('${windowId}', 'games')">
+                            <img src="${app.icon}" alt="Games">
+                            <div class="icon-label">Games</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="right-panel">
+                    <div id="${windowId}-games-content">
+                        <div class="section-title">🎮 Popular Games</div>
+                        <div class="game-list">
+                            <div class="game-item" onclick="openGame('https://storage.classroomsarecool.mex.com/slope/index.html')">Slope.io</div>
+                            <div class="game-item" onclick="openGame('https://storage.classroomsarecool.mex.com/geometrydash/index.html')">Geometry Dash</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="status-bar">
+                <div id="${windowId}-status-text">Welcome to ${app.name}!</div>
+                <div>v98.0</div>
+            </div>
+        </div>
+    `;
+}
+
+function createGamesWindow(windowId, app) {
+    return `
+        <div class="title-bar" style="cursor: move;">
+            <div class="title-bar-text">${app.name}</div>
+            <div class="title-bar-controls">
+                <button aria-label="Minimize" onclick="minimizeWindow('${windowId}')">-</button>
+                <button aria-label="Maximize">-</button>
+                <button aria-label="Close" onclick="closeApplicationWindow('${windowId}')">×</button>
+            </div>
+        </div>
+        <div class="window-body">
+            <div class="section-title">🎮 Popular Games</div>
+            <div class="game-list" style="height: 300px;">
+                <div class="game-item" onclick="openGame('https://storage.classroomsarecool.mex.com/slope/index.html')">Slope.io</div>
+                <div class="game-item" onclick="openGame('https://storage.classroomsarecool.mex.com/geometrydash/index.html')">Geometry Dash</div>
+                <div class="game-item" onclick="openGame('https://storage.classroomsarecool.mex.com/subwaysurfers-sf/index.html')">Subway Surfers</div>
+                <div class="game-item" onclick="openGame('https://storage.classroomsarecool.mex.com/motox3m/index.html')">Moto X3M</div>
+            </div>
+        </div>
+    `;
+}
+
+function createProxyWindow(windowId, app) {
+    return `
+        <div class="title-bar" style="cursor: move;">
+            <div class="title-bar-text">${app.name}</div>
+            <div class="title-bar-controls">
+                <button aria-label="Minimize" onclick="minimizeWindow('${windowId}')">-</button>
+                <button aria-label="Maximize">-</button>
+                <button aria-label="Close" onclick="closeApplicationWindow('${windowId}')">×</button>
+            </div>
+        </div>
+        <div class="window-body">
+            <div class="section-title">🛡️ Proxy Access</div>
+            <div>
+                <label>URL to access:</label><br>
+                <input type="text" class="url-input" placeholder="https://example.com" onkeydown="if(event.key === 'Enter') accessSite('${windowId}', this.value)">
+                <button onclick="accessSite('${windowId}', this.previousElementSibling.previousElementSibling.value)" style="width: 100%; margin-top: 8px;">Access Site</button>
+                <div id="${windowId}-proxy-status" style="margin-top: 8px; padding: 4px; background: #ffffff; border: 1px inset; font-size: 11px;">Ready to browse anonymously...</div>
+            </div>
+        </div>
+    `;
+}
+
+function createToolsWindow(windowId, app) {
+    return `
+        <div class="title-bar" style="cursor: move;">
+            <div class="title-bar-text">${app.name}</div>
+            <div class="title-bar-controls">
+                <button aria-label="Minimize" onclick="minimizeWindow('${windowId}')">-</button>
+                <button aria-label="Maximize">-</button>
+                <button aria-label="Close" onclick="closeApplicationWindow('${windowId}')">×</button>
+            </div>
+        </div>
+        <div class="window-body">
+            <div class="section-title">🛠️ Developer Tools</div>
+            <div>
+                <button onclick="openTool('url-encoder.html')" style="width: 100%; margin: 2px 0;">URL Encoder</button>
+                <button onclick="openTool('password-generator.html')" style="width: 100%; margin: 2px 0;">Password Generator</button>
+                <div style="margin-top: 12px; padding: 8px; background: #ffffff; border: 1px inset;">
+                    <div class="checkbox">
+                        <input type="checkbox" id="${windowId}-darkMode" onchange="toggleDarkMode()">
+                        <label for="${windowId}-darkMode">8992 Mode</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+// Utility Functions
+function switchTabs(windowId, tabName) {
+    // This would switch tabs within a window - for now just focus the window
+    focusWindow(windowId);
+}
+
 function openGame(url) {
     window.open(url, '_blank');
 }
 
-// Proxy functionality
-function accessSite() {
-    const urlInput = document.getElementById('urlInput');
-    const url = urlInput.value.trim();
-
+function accessSite(windowId, url) {
     if (!url) {
-        document.getElementById('proxy-status').textContent = 'Error: Please enter a URL';
+        document.getElementById(`${windowId}-proxy-status`).textContent = 'Error: Please enter a URL';
         return;
     }
 
-    document.getElementById('proxy-status').textContent = `Accessing: ${url}...`;
+    document.getElementById(`${windowId}-proxy-status`).textContent = `Accessing: ${url}...`;
     setTimeout(() => {
         window.open(`proxy.html?url=${encodeURIComponent(url)}`, '_blank');
-        document.getElementById('proxy-status').textContent = 'Site opened successfully!';
+        document.getElementById(`${windowId}-proxy-status`).textContent = 'Site opened successfully!';
         setTimeout(() => {
-            document.getElementById('proxy-status').textContent = 'Ready to browse anonymously...';
+            document.getElementById(`${windowId}-proxy-status`).textContent = 'Ready to browse anonymously...';
         }, 3000);
     }, 500);
 }
 
-// Tool opening
 function openTool(url) {
     window.open(url, '_blank');
 }
 
-// Dark mode toggle (Windows 98 joke)
 function toggleDarkMode() {
-    if (document.getElementById('darkMode').checked) {
+    const checkbox = document.querySelector('#darkMode, [id$="-darkMode"]:checked');
+    if (checkbox && checkbox.checked) {
         document.body.style.background = '#000000';
         document.body.style.color = '#00FF00';
-        document.getElementById('status-text').textContent = 'Welcome to the Matrix...';
     } else {
         document.body.style.background = '#008080 url(\'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"><rect width="16" height="16" fill="%23008080"/><rect x="0" y="0" width="8" height="8" fill="%2300AAAA"/><rect x="8" y="8" width="8" height="8" fill="%2300AAAA"/></svg>\')';
         document.body.style.color = '#000000';
-        document.getElementById('status-text').textContent = 'Back to Windows 98!';
     }
 }
 
-// Menu functionality
-function showMenu(menuType) {
-    document.getElementById('status-text').textContent = `Opening ${menuType} menu...`;
+// Context Menu Actions
+function arrangeIcons() {
+    // Implement icon arrangement
+    console.log('Arrange icons');
 }
 
-// Start menu
-function showStartMenu() {
-    document.getElementById('status-text').textContent = 'Opening Start menu...';
+function refreshDesktop() {
+    // Implement desktop refresh
+    console.log('Refresh desktop');
 }
 
-// Clock update
+function changeWallpaper() {
+    desktopWallpaper = (desktopWallpaper + 1) % 3;
+    const wallpapers = [
+        'url(\'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAABHNCSVQICAgIfAhkiAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAABMSURBVBiVY2CgA2BhYWFiYmJgJGIQZGBgZGJgJGAQZ2Bg7OBg4GBgEWVgZGDhYGDhEWVgZGDhYGDhEWVgZGDhUWFgE0NhIGRgAGUAX/xSbxdhAAAAAElFTkSuQmCC\')',
+        '#008080',
+        '#000080 url(\'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"><circle cx="10" cy="10" r="8" fill="%2300FF00" opacity="0.1"/></svg>\')'
+    ];
+    document.querySelector('.desktop').style.background = wallpapers[desktopWallpaper];
+}
+
+function showProperties() {
+    // Implement properties window
+    console.log('Show properties');
+}
+
+function showSettings() {
+    openApplication('tools');
+}
+
+function showHelp() {
+    alert('CRYPTX OS - Windows 98 Edition\n\nUse the Start menu to open applications.\nRight-click the desktop for more options.\nDrag windows by their title bars.\nDouble-click desktop icons to open applications.');
+}
+
+function shutdown() {
+    if (confirm('Are you sure you want to shut down CRYPTX OS?')) {
+        // Clear all windows and reset
+        document.querySelectorAll('.window-instance').forEach(win => win.remove());
+        document.getElementById('running-apps').innerHTML = '';
+        openedWindows = [];
+        activeWindowId = null;
+        alert('CRYPTX OS has been shut down. Refresh the page to restart.');
+    }
+}
+
+// Clock and Initialization
 function updateClock() {
     const now = new Date();
     const timeString = now.toLocaleTimeString('en-US', {
@@ -534,21 +1224,47 @@ function updateClock() {
     document.getElementById('clock').textContent = timeString;
 }
 
-// Initialize
+// Event Listeners
 document.addEventListener('DOMContentLoaded', function() {
     updateClock();
     setInterval(updateClock, 1000);
 
-    // Focus main window on load
-    openWindow('cryptx');
+    // Desktop right-click
+    document.querySelector('.desktop').addEventListener('contextmenu', showDesktopContextMenu);
 
-    // Add loading animation
+    // Desktop icon clicks
+    document.querySelectorAll('.desktop-icon').forEach(icon => {
+        icon.addEventListener('click', function(e) {
+            if (e.detail === 2) { // Double click
+                const appId = this.getAttribute('data-app-id') || this.onclick.toString().match(/openWindow\('([^']+)'\)/)?.[1];
+                if (appId && applications[appId]) {
+                    openApplication(appId);
+                }
+            } else {
+                selectIcon(this);
+            }
+        });
+    });
+
+    // Hide start menu when clicking elsewhere
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.start-button') && !e.target.closest('.start-menu')) {
+            hideStartMenu();
+        }
+    });
+
+    // Initial loading animation
     document.body.style.opacity = '0';
     document.body.style.transition = 'opacity 1s';
     setTimeout(() => {
         document.body.style.opacity = '1';
     }, 100);
 });
+
+// Legacy functions for backward compatibility
+function switchTab(tabName) {
+    // Keep for backward compatibility
+}
 </script>
 
 </body>
